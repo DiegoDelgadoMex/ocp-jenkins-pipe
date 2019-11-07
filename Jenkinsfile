@@ -1,5 +1,5 @@
 // Set your project Prefix using your GUID
-def prefix      = "GUID"
+def prefix      = "0a88"
 
 // Set variable globally to be available in all stages
 // Set Maven command to always include Nexus Settings
@@ -24,6 +24,7 @@ pipeline {
     stage('Checkout Source') {
       steps {
         // TBD: Get code from protected Git repository
+       git clone https://gogs-gogs-0a88-gogs.apps.cluster-mex-ilt.mex-ilt.openshift.opentlc.com/CICDLabs/openshift-tasks-private.git 
 
        script {
           def pom = readMavenPom file: 'pom.xml'
