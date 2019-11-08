@@ -37,6 +37,7 @@ pipeline {
           // TBD: Set the tag for the production image: version
           // Example: def prodTag = "0.0"
           def prodTag = "0.0"
+          // Test
 
         }
       }
