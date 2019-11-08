@@ -8,9 +8,9 @@ def mvnCmd      = "mvn -s ./nexus_openshift_settings.xml"
 def devProject  = "${prefix}-tasks-dev"
 def prodProject = "${prefix}-tasks-prod"
 // Set the tag for the development image: version + build number
-//def devTag      = "0.0-0"
+def devTag      = "0.0-0"
 // Set the tag for the production image: version
-//def prodTag     = "0.0"
+def prodTag     = "0.0"
 def destApp     = "tasks-green"
 def activeApp   = ""
 
@@ -32,11 +32,11 @@ pipeline {
 
           // TBD: Set the tag for the development image: version + build number.
           // Example: def devTag  = "0.0-0"
-          def devTag = "${version}-" + currentBuild.number
+          devTag = "${version}-" + currentBuild.number
 
           // TBD: Set the tag for the production image: version
           // Example: def prodTag = "0.0"
-          def devTag = "${version}"
+          prodTag = "${version}"
 
         }
       }
