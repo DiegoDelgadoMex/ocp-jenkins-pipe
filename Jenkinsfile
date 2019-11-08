@@ -282,6 +282,7 @@ pipeline {
              openshift.apply(route)
            }
           }
+       }
       }
     }
   }
