@@ -56,7 +56,7 @@ pipeline {
     stage('Unit Tests') {
       steps {
         echo "Running Unit Tests"
-        sh "${mvnCmd} test"
+        //sh "${mvnCmd} test"
         // TBD
 
         step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
@@ -67,7 +67,7 @@ pipeline {
     stage('Code Analysis') {
       steps {
         echo "Running Code Analysis"
-        sh "${mvnCmd} sonar:sonar -Dsonar.host.url=http://sonarqube.0a88-sonarqube.svc.cluster.local:9000/ -Dsonar.projectName=${JOB_BASE_NAME} -Dsonar.projectVersion=${devTag}"
+        //sh "${mvnCmd} sonar:sonar -Dsonar.host.url=http://sonarqube.0a88-sonarqube.svc.cluster.local:9000/ -Dsonar.projectName=${JOB_BASE_NAME} -Dsonar.projectVersion=${devTag}"
    
         // TBD
 
@@ -78,7 +78,7 @@ pipeline {
     stage('Publish to Nexus') {
       steps {
         echo "Publish to Nexus"
-
+        sh "${mvnCmd} deploy -DskipTests=true -DaltDeploymentRepository=nexus::default::http://nexus.${prefix}-nexus.svc.cluster.local:8081/repository/releases"
         // TBD
 
       }
