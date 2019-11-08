@@ -8,9 +8,9 @@ def mvnCmd      = "mvn -s ./nexus_openshift_settings.xml"
 def devProject  = "${prefix}-tasks-dev"
 def prodProject = "${prefix}-tasks-prod"
 // Set the tag for the development image: version + build number
-def devTag      = "0.0-0"
+//def devTag      = "0.0-0"
 // Set the tag for the production image: version
-def prodTag     = "0.0"
+//def prodTag     = "0.0"
 def destApp     = "tasks-green"
 def activeApp   = ""
 
@@ -56,7 +56,7 @@ pipeline {
     stage('Unit Tests') {
       steps {
         echo "Running Unit Tests"
-        //sh "${mvnCmd} test"
+        sh "${mvnCmd} test"
         // TBD
 
         //step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
@@ -67,7 +67,7 @@ pipeline {
     stage('Code Analysis') {
       steps {
         echo "Running Code Analysis"
-        //sh "${mvnCmd} sonar:sonar -Dsonar.host.url=http://sonarqube.0a88-sonarqube.svc.cluster.local:9000/ -Dsonar.projectName=${JOB_BASE_NAME} -Dsonar.projectVersion=${devTag}"
+        sh "${mvnCmd} sonar:sonar -Dsonar.host.url=http://sonarqube.0a88-sonarqube.svc.cluster.local:9000/ -Dsonar.projectName=${JOB_BASE_NAME} -Dsonar.projectVersion=${devTag}"
    
         // TBD
 
