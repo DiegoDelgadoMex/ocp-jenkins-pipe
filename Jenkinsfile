@@ -202,8 +202,17 @@ pipeline {
         echo "Copy image to Nexus Container Registry"
         // TBD. Use skopeo to copy
 
+        script {
+          sh "skopeo copy --src-tls-verify=false --dest-tls-verify=false --src-creds openshift:\$(oc whoami -t) --dest-creds admin:app_deploy docker://image-registry.openshift-image-registry.svc.cluster.local:5000/${devProject}/tasks:${devTag} docker://nexus-registry.${prefix}-nexus.svc.cluster.local:5000/tasks:${devTag}"
+
 
         // TBD: Tag the built image with the production tag.
+          openshift.withCluster(){
+            openshift.withProject("${prodProject}") {
+              openshift.tag("${devProject}/tasks:${devTag}", "${devProject}/tasks:${prodTag}")
+            }
+          }
+         }
 
       }
     }
