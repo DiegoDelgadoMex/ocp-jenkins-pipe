@@ -32,9 +32,11 @@ pipeline {
 
           // TBD: Set the tag for the development image: version + build number.
           // Example: def devTag  = "0.0-0"
+          devTag = "${version}-" + currentBuild.number
 
           // TBD: Set the tag for the production image: version
           // Example: def prodTag = "0.0"
+          devTag = "${version}"
 
         }
       }
@@ -45,9 +47,8 @@ pipeline {
     stage('Build War File') {
       steps {
         echo "Building version ${devTag}"
-
-        // TBD
-
+        sh "${mvnCmd} clean package -DskipTests=true"
+        
       }
     }
 
