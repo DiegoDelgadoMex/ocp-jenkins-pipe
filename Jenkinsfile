@@ -67,7 +67,8 @@ pipeline {
     stage('Code Analysis') {
       steps {
         echo "Running Code Analysis"
-
+        sh "${mvnCmd} sonar:sonar -Dsonar.host.url=http://sonarqube-${prefix}-sonarqube.apps.fab.example.opentlc.com/ -Dsonar.projectName=${JOB_BASE_NAME} -Dsonar.projectVersion=${devTag}"
+   
         // TBD
 
       }
