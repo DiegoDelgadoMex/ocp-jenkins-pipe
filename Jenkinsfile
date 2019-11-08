@@ -56,8 +56,10 @@ pipeline {
     stage('Unit Tests') {
       steps {
         echo "Running Unit Tests"
-
+        sh "${mvnCmd} test"
         // TBD
+
+        step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
       }
     }
 
