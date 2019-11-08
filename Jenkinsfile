@@ -240,7 +240,8 @@ pipeline {
         //      2. Update the image for the other application
               def dc = openshift.selector("dc/${destApp}").object()
 
-              dc.spec.template.spec.containers[0].image="image-registry.openshift-image-registry.svc:5000/${devProject}/tasks:${prodTag}"
+              dc.spec.template.spec.containers[0].image="nexus-registry.${prefix}-nexus.svc.cluster.local:5000/tasks:${devTag}"
+       //       openshift.tag("tasks:latest", "tasks:${prodTag}")
 
               openshift.apply(dc)
               
