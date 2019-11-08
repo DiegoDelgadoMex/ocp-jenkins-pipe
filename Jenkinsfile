@@ -94,14 +94,23 @@ pipeline {
         // workspace (filename to pass into the binary build
         // is openshift-tasks.war in the 'target' directory of
         // your current Jenkins workspace).
+        script{
+          openshift.withCluster() {
+            openshift.withProject("${devProject}") {
+              openshift.selector("bc", "tasks").startBuild("--from-file=./target/openshift-tasks.war", "--wait=true")
+
         // OR use the file you just published into Nexus:
         // "--from-file=http://nexus.${prefix}-nexus.svc.cluster.local:8081/repository/releases/org/jboss/quickstarts/eap/tasks/${prodTag}/tasks-${prodTag}.war"
 
 
         // TBD: Tag the image using the devTag.
-
+          openshift.tag("tasks:latest", "tasks:${devTag}")
+        }
+       }
       }
     }
+   }
+
 
     // Deploy the built image to the Development Environment.
     stage('Deploy to Dev') {
