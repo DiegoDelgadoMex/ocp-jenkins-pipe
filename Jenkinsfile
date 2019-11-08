@@ -223,14 +223,47 @@ pipeline {
     stage('Blue/Green Production Deployment') {
       steps {
         echo "Blue/Green Deployment"
+        
+        script {
 
         // TBD: 1. Determine which application is active
+          openshift.withCluster() {
+            openshift.withProject("${prodProject}") {
+              activeApp = openshift.selector("route", "tasks").object().spec.to.name
+              if (activeApp == "tasks-green") {
+                destApp = "tasks-blue"
+              }
+              
+              echo "Active Application:      " + activeApp
+              echo "Destination Application: " + destApp
+                    
         //      2. Update the image for the other application
+              def dc = openshift.selector("dc/${destApp}").object()
+
+              dc.spec.template.spec.containers[0].image="image-registry.openshift-image-registry.svc:5000/${devProject}/tasks:${prodTag}"
+
+              openshift.apply(dc)
+              
+              openshift.selector("configmap", "${destApp}-config").delete()
+              def configmap = openshift.create("configmap", "${destApp}-config", "--from-file=./configuration/application-users.properties", "--from-file=./configuration/application-roles.properties" )
+
         //      3. Deploy into the other application
+              openshift.selector("dc", "${destApp}").rollout().latest();
+
         //      4. Update Config maps for other application
         //      5. Wait until application is running
+               def dc_prod = openshift.selector("dc", "${destApp}").object()
+               def dc_version = dc_prod.status.latestVersion
+               def rc_prod = openshift.selector("rc", "${destApp}-${dc_version}").object()
+               echo "Waiting for ${destApp} to be ready"
+               while (rc_prod.spec.replicas != rc_prod.status.readyReplicas) {
+                 sleep 5
+                 rc_prod = openshift.selector("rc", "${destApp}-${dc_version}").object()
         //         See above for example code
-
+               }
+             }
+           }
+         }
       }
     }
 
