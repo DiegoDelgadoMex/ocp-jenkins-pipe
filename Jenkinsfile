@@ -24,7 +24,7 @@ pipeline {
     stage('Checkout Source') {
       steps {
         // TBD: Get code from protected Git repository
-        git credentialsId: '4295320a-b542-4dba-aee4-543957b6fe24', url: 'http://gogs-gogs.0a88-gogs.svc.cluster.local:3000/CICDLabs/openshift-tasks-private.git'
+        git credentialsId: '4295320a-b542-4dba-aee4-543957b6fe24', url: 'http://gogs-gogs.0a88-gogs.svc.cluster.local:3000/CICDLabs/openshift-tasks.git'
 
        script {
           def pom = readMavenPom file: 'pom.xml'
