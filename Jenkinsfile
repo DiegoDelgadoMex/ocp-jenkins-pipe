@@ -67,7 +67,7 @@ pipeline {
     stage('Code Analysis') {
       steps {
         echo "Running Code Analysis"
-        sh "${mvnCmd} sonar:sonar -Dsonar.host.url=http://nexus.${prefix}-nexus.svc.cluster.local:8081/ -Dsonar.projectName=${JOB_BASE_NAME} -Dsonar.projectVersion=${devTag}"
+        sh "${mvnCmd} sonar:sonar -Dsonar.host.url=http://sonarqube.0a88-sonarqube.svc.cluster.local/ -Dsonar.projectName=${JOB_BASE_NAME} -Dsonar.projectVersion=${devTag}"
    
         // TBD
 
