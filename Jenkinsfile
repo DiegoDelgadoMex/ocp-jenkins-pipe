@@ -32,11 +32,11 @@ pipeline {
 
           // TBD: Set the tag for the development image: version + build number.
           // Example: def devTag  = "0.0-0"
-          devTag = "${version}-" + currentBuild.number
+          def devTag = "${version}-" + currentBuild.number
 
           // TBD: Set the tag for the production image: version
           // Example: def prodTag = "0.0"
-          devTag = "${version}"
+          def devTag = "${version}"
 
         }
       }
